@@ -15,5 +15,21 @@ dependencies {
 }
 
 test {
-    useTestNG()
+    useTestNG() {
+
+        if (!project.hasProperty("suiteName"))
+            suites "src/test/resources/suites/FullSuite.xml"
+        else
+            suites "src/test/resources/suites/" + project.property("suiteName") + ".xml"
+
+        useDefaultListeners true
+    }
+}
+
+task retest(type: Test) {
+    useTestNG() {
+        suites "build/reports/tests/test/testng-failed.xml"
+
+
+    }
 }
